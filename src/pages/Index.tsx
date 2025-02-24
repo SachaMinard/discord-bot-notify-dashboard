@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { NotificationCard } from "@/components/NotificationCard";
 import { DashboardStats } from "@/components/DashboardStats";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,21 @@ const mockNotifications = [
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Filtrer les notifications en fonction de la recherche
+  const filteredNotifications = useMemo(() => {
+    if (!searchQuery.trim()) return mockNotifications;
+    
+    const searchLower = searchQuery.toLowerCase();
+    return mockNotifications.filter(
+      notification =>
+        notification.botName.toLowerCase().includes(searchLower) ||
+        notification.message.toLowerCase().includes(searchLower)
+    );
+  }, [searchQuery]);
+
+  // Message si aucun résultat
+  const noResults = searchQuery.trim() && filteredNotifications.length === 0;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-8">
       <div className="max-w-7xl mx-auto space-y-10">
@@ -55,7 +70,7 @@ const Index = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
               className="pl-10 bg-white/50 border-white/20 backdrop-blur-sm"
-              placeholder="Rechercher des notifications..."
+              placeholder="Rechercher par nom de bot ou message..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -68,15 +83,21 @@ const Index = () => {
 
         {/* Liste des notifications */}
         <div className="grid gap-6 animate-fade-in">
-          {mockNotifications.map((notification) => (
-            <NotificationCard
-              key={notification.id}
-              botName={notification.botName}
-              message={notification.message}
-              timestamp={notification.timestamp}
-              channel={notification.channel}
-            />
-          ))}
+          {noResults ? (
+            <div className="text-center p-8 bg-white/10 rounded-xl backdrop-blur-md border border-white/20">
+              <p className="text-gray-600">Aucune notification trouvée pour "{searchQuery}"</p>
+            </div>
+          ) : (
+            filteredNotifications.map((notification) => (
+              <NotificationCard
+                key={notification.id}
+                botName={notification.botName}
+                message={notification.message}
+                timestamp={notification.timestamp}
+                channel={notification.channel}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
