@@ -35,35 +35,39 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Discord Bot Dashboard</h1>
-          <p className="text-gray-600">Supervisez vos notifications Discord en temps réel</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-8">
+      <div className="max-w-7xl mx-auto space-y-10">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-discord via-discord-light to-discord-dark bg-clip-text text-transparent">
+            Discord Bot Dashboard
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Supervisez vos notifications Discord en temps réel
+          </p>
         </div>
 
         {/* Stats */}
         <DashboardStats />
 
         {/* Filtres et Recherche */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 backdrop-blur-md bg-white/10 p-4 rounded-xl border border-white/20">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
-              className="pl-10"
+              className="pl-10 bg-white/50 border-white/20 backdrop-blur-sm"
               placeholder="Rechercher des notifications..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button className="bg-discord hover:bg-discord-dark transition-colors">
+          <Button className="bg-discord hover:bg-discord-dark transition-all duration-300 hover:shadow-lg hover:shadow-discord/20">
             <Filter className="w-4 h-4 mr-2" />
             Filtrer
           </Button>
         </div>
 
         {/* Liste des notifications */}
-        <div className="grid gap-4 animate-fade-in">
+        <div className="grid gap-6 animate-fade-in">
           {mockNotifications.map((notification) => (
             <NotificationCard
               key={notification.id}
