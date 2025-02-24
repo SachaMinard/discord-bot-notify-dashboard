@@ -1,10 +1,10 @@
-
 import { useState, useMemo } from "react";
 import { NotificationCard } from "@/components/NotificationCard";
 import { DashboardStats } from "@/components/DashboardStats";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
+import { Topbar } from "@/components/Topbar";
 
 // Données de test
 const mockNotifications = [
@@ -50,26 +50,25 @@ const Index = () => {
   const noResults = searchQuery.trim() && filteredNotifications.length === 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-8">
-      <div className="max-w-7xl mx-auto space-y-10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-8">
+      <Topbar />
+      <div className="max-w-7xl mx-auto space-y-10 pt-16">
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-discord via-discord-light to-discord-dark bg-clip-text text-transparent">
             Discord Bot Dashboard
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
             Supervisez vos notifications Discord en temps réel
           </p>
         </div>
 
-        {/* Stats */}
         <DashboardStats />
 
-        {/* Filtres et Recherche */}
-        <div className="flex flex-col sm:flex-row gap-4 backdrop-blur-md bg-white/10 p-4 rounded-xl border border-white/20">
+        <div className="flex flex-col sm:flex-row gap-4 backdrop-blur-md bg-white/10 dark:bg-black/10 p-4 rounded-xl border border-white/20">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
-              className="pl-10 bg-white/50 border-white/20 backdrop-blur-sm"
+              className="pl-10 bg-white/50 dark:bg-black/50 border-white/20 backdrop-blur-sm"
               placeholder="Rechercher par nom de bot ou message..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -81,11 +80,10 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Liste des notifications */}
         <div className="grid gap-6 animate-fade-in">
           {noResults ? (
-            <div className="text-center p-8 bg-white/10 rounded-xl backdrop-blur-md border border-white/20">
-              <p className="text-gray-600">Aucune notification trouvée pour "{searchQuery}"</p>
+            <div className="text-center p-8 bg-white/10 dark:bg-black/10 rounded-xl backdrop-blur-md border border-white/20">
+              <p className="text-gray-600 dark:text-gray-400">Aucune notification trouvée pour "{searchQuery}"</p>
             </div>
           ) : (
             filteredNotifications.map((notification) => (
